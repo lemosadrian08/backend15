@@ -21,6 +21,8 @@ const messagesSchema = require('./models/schemas/messages.schema')
 const messagesApi = new MongoContainer("messages",messagesSchema)
 const productsApi = new MongoContainer("products",productsSchema)
 
+const envConfig = require('./config');
+const PORT = envConfig.PORT
 
 const passport= require('./middlewares/passport')
 
@@ -98,9 +100,9 @@ if (args.mode == 'CLUSTER' && cluster.isPrimary){
 
 
 //Listen
-const server = httpServer.listen(args.port, () => {
+const server = httpServer.listen(PORT, () => {
   MongoContainer.connect().then(() => {
-    logger.log('info', `Server is up and running on port ${args.port}`)
+    logger.log('info', `Server is up and running on port ${PORT}`)
     logger.log('info', 'Connected to MongoDb')
   })
 })
